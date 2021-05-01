@@ -1,0 +1,6 @@
+{"timestamp":"2021-05-01T11:39:44.134Z","method":"GET","url":"/api/movietickets/","http_version":"1.1","response_time":"13.640","status":"304","content_length":"-","headers_count":"req-headers-length"}
+{"timestamp":"2021-05-01T11:40:29.884Z","method":"GET","url":"/api/movietickets/","http_version":"1.1","response_time":"4.821","status":"200","content_length":"0","headers_count":"req-headers-length"}
+{"timestamp":"2021-05-01T11:40:40.017Z","method":"GET","url":"/api/movietickets/4","http_version":"1.1","response_time":"2.095","status":"404","content_length":"157","headers_count":"req-headers-length"}
+{"timestamp":"2021-05-01T11:41:13.247Z","method":"GET","url":"/api/movietickets/","http_version":"1.1","response_time":"1.685","status":"200","content_length":"0","headers_count":"req-headers-length"}
+{"timestamp":"2021-05-01T11:41:35.966Z","method":"GET","url":"/api/movietickets/ticket/4","http_version":"1.1","response_time":"5.625","status":"200","content_length":"352","headers_count":"req-headers-length"}
+{"timestamp":"2021-05-01T11:42:22.295Z","method":"GET","url":"/api/movietickets/ticket/4","http_version":"1.1","response_time":"11.549","status":"200","content_length":"352","headers_count":"req-headers-length"}

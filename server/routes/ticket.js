@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('../database/db');
-const { route } = require('./movie');
+
 
 /**
  * GET route - get all tickets collection
@@ -9,7 +9,8 @@ const { route } = require('./movie');
 router.get("/", async(req, res) => {
   try {
         const tickets = await mysql.getAllMovieTickets();
-        res.json(tickets);
+        res.render("../client/views/ticket/index");
+        // res.json(tickets);
   }catch(err){
       console.log(err);
       return res.sendStatus(500);
@@ -20,7 +21,7 @@ router.get("/", async(req, res) => {
  * render form to create a new movie ticket
  */
 router.get("/new", () => {
-    res.render("ticket/new");
+    res.render("../client/views/ticket/new");
 });
 
 /**
