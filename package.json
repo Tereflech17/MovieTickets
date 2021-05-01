@@ -1,0 +1,31 @@
+{
+  "name": "movietickets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tereflech17/MovieTickets.git"
+  },
+  "author": "Team 3",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tereflech17/MovieTickets/issues"
+  },
+  "homepage": "https://github.com/Tereflech17/MovieTickets#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5"
+  }
+}
