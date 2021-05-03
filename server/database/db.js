@@ -2,7 +2,10 @@
 require('dotenv').config();
 const  config  = require('../../config');
 const  mysql  = require('mysql2');
-const router = require('../routes/movie');
+// const router = require('../routes/movie');
+// const { resolve } = require('node:path');
+// const { resourceLimits } = require('node:worker_threads');
+
 
 
 
@@ -219,6 +222,104 @@ function getMovieById(movieId){
 }
 
 
+/**
+ * 
+ * @param {*} movieName 
+ * @param {*} movieDesc 
+ * @param {*} movieGenre 
+ * @returns 
+ */
+function insertMovie(movieName, movieDesc, movieGenre){
+    const query = "INSERT INTO movie(movie_name, movie_description, movie_genre_id) VALUES(?,?,?)";
+
+    return new Promise((resolve, reject) => {
+      db.execute(query, [moiveName, movieDesc, movieGenre], (err, results) => {
+            if (typeof results != 'undefined'){
+                const affected = results.affectedRows;
+
+                //get the last inserted id
+                const insertedId = results.insertId;
+
+                if(affected === 1) resolve(insertedId);
+
+            }
+
+            reject(err);
+      });
+    });
+}
+
+/**
+ * 
+ * @param {*} movieName 
+ * @param {*} movieDesc 
+ * @param {*} movieGenre 
+ * @param {*} movieId 
+ * @returns 
+ */
+function updateMovie(movieName, movieDesc, movieGenre, movieId){
+  const query = "UPDATE movie SET movie_name=?, movie_description=?, movie_genre_id=? WHERE movie_id=?";
+
+  return new Promise((resolve, reject) => {
+    db.execute(query, [movieName, movieDesc, movieGenre, movieId], (err, results) => {
+        if (typeof results != 'undefined'){
+            const affected = results.affectedRows;
+
+            //check affected rows
+            if (affected === 1) resolve(1);
+        }
+
+        reject(err);
+    });
+  });
+}
+
+/**
+ * 
+ * @param {*} movieId 
+ * @returns 
+ */
+function deleteMovie(movieId){
+    const query = "DELETE FROM movie WHERE movie_id=?";
+
+    return new Promise((resolve, reject) => {
+       db.execute(query, [movieId], (err, results) => {
+          if (typeof results != 'undefined'){
+              const affected = results.affectedRows;
+
+              if (affected === 1) resolve(1);
+          }
+          reject(err);
+       });
+    });
+}
+
+/**
+ * Filter movies collection by genres
+ * @param {*} genreId 
+ * @returns 
+ */
+function getMovieByGenre(genreId){
+  const query = "SELECT movie_id, movie_name, movie_description, genre_name FROM movie m JOIN genre g ON m.movie_genre_id = g.genre_id WHERE m.movie_genre_id=?";
+
+  return new Promise((resolve, reject) => {
+    db.execute(query, [genreId], (err, results) => {
+        if (typeof results != 'undefined'){
+          const rows = results;
+
+          if (rows.length > 0){
+              let data  = []
+
+              rows.forEach(d => {
+                 data.push(d);
+              })
+              resolve(data);
+          }
+        }
+        reject(err);
+    });
+  });
+}
 
 /**
  * Get's a Movie Id using movie_name
@@ -226,7 +327,7 @@ function getMovieById(movieId){
  * @returns 
  */
 function getMovieByName(moiveName) {
-      const query =  "SELECT movie_id FROM movie WHERE movie_name= ?";
+      const query =  "SELECT movie_id FROM movie WHERE movie_name=?";
 
       return new Promise((resolve, reject) => {
         db.execute(query,[moiveName], (err, results) => {
@@ -242,6 +343,31 @@ function getMovieByName(moiveName) {
         })
       })
 }
+
+/**
+ * Get's a Genre Id using genre_name
+ * @param {*} genreName 
+ * @returns 
+ */
+function getGenreName(genreName){
+  const query = "SELECT genre_id FROM genre WHERE genre_name=?";
+
+  return new Promise((resolve, reject) => {
+    db.execute(query, [genreName], (err, results) => {
+      if (typeof results != 'undefined'){
+          const rows = results;
+          if (rows.length === 1){
+            let genreId = rows[0];
+            resolve(genreId);
+          }
+      }
+      reject(err);
+    })
+  })
+}
+
+
+
 
 
 /**
@@ -289,7 +415,7 @@ function insertMovieShowing(movieId, theaterId, seats, showDate) {
 
 
 module.exports = { 
-  getMovies, 
+  getAllMovies, 
   getMovieById, 
   getMovieByName, 
   getTheaterByName, 

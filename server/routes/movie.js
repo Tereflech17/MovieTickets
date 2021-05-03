@@ -6,7 +6,7 @@ const mysql = require('../database/db');
 // get all movies
 router.get("/movies", async (req, res)=> {
   try {
-        const movies =  await mysql.getMovies();
+        const movies =  await mysql.getAllMovies();
         // console.log(movies);
         res.json(movies);
   }catch(err){
