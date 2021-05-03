@@ -49,7 +49,7 @@ DROP TABLE IF EXISTS theater;
 CREATE TABLE theater (
   theater_id INT NOT NULL AUTO_INCREMENT,
   theater_name VARCHAR(50),
-  address VARCHAR(200),
+  address VARCHAR(300),
 
   PRIMARY KEY(theater_id)
 );
