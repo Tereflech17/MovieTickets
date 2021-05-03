@@ -25,33 +25,25 @@ db.connect(err => {
 });
 
 
+function query(sql, params = []) {
+  return new Promise((res, rej) => {
+    db.execute(sql, params, (err, r) => {
+      err ? rej(err) : res(r);
+    });
+  });
+}
+
 
 /**
  * Get all tickets
  * @returns 
  */
-function getAllMovieTickets() {
-      const query = "SELECT movie_name, seat_no, show_date, ticket_price FROM movie m"+ 
-                    " JOIN showing s ON m.movie_id = s.show_movie_id" +
-                    " JOIN ticket t ON s.show_id = t.ticket_show_id";
-      return new Promise((resolve, reject) => {
-        db.query(query, (err, results) => {
-          if(typeof results != 'undefined'){
-                const rows = results;
-                console.log(results);
-
-                if(rows.length >= 0){
-                  let data = [];
-                  rows.forEach(d => {
-                    data.push(d);
-                  });
-
-                  resolve(data)
-                }
-            }
-            reject(err);
-        })
-      })
+async function getAllMovieTickets() {
+  return await query(
+    "SELECT movie_name, seat_no, show_date, ticket_price FROM movie m"+ 
+    " JOIN showing s ON m.movie_id = s.show_movie_id" +
+    " JOIN ticket t ON s.show_id = t.ticket_show_id"
+  );
 } 
 
 
@@ -62,26 +54,17 @@ function getAllMovieTickets() {
  * @returns 
  */
 
-function getMovieTicketById(ticketId){
-    const query = "SELECT movie_name, movie_description, genre_name, seat_no, show_date, ticket_price, theater_name, address FROM movie m"+
-                  " JOIN genre g ON m.movie_genre_id = g.genre_id"+ 
-                  " JOIN showing s ON m.movie_id = s.show_movie_id" +
-                  " JOIN theater th ON s.show_theater_id = th.theater_id" +
-                  " JOIN ticket t ON s.show_id = t.ticket_show_id WHERE t.ticket_id= ?";
-
-  return new Promise((resolve, reject) => {
-    db.execute(query, [ticketId], (err, results) => {
-      if (typeof results != 'undefined'){
-        const rows = results;
-
-        if (rows.length === 1) {
-          let ticketRecord = rows[0];
-            resolve(ticketRecord);
-        }
-      }
-      reject(err);
-    });
-  })
+async function getMovieTicketById(ticketId){
+  const results = await query(
+    "SELECT movie_name, movie_description, genre_name, seat_no, show_date, ticket_price, theater_name, address FROM movie m"+
+    " JOIN genre g ON m.movie_genre_id = g.genre_id"+ 
+    " JOIN showing s ON m.movie_id = s.show_movie_id" +
+    " JOIN theater th ON s.show_theater_id = th.theater_id" +
+    " JOIN ticket t ON s.show_id = t.ticket_show_id WHERE t.ticket_id= ?",
+    [ticketId]
+  );
+  
+  return results[0];
 }
 
 
@@ -92,22 +75,13 @@ function getMovieTicketById(ticketId){
  * @param {*} seatNum 
  * @returns 
  */
-function insertTicket(showId, ticketPrice, seatNum) {
-    const query = "INSERT INTO ticket(ticket_show_id, ticket_price, seat_no) VALUES (?, ?, ?)";
-    return new Promise((resolve, reject) => {
-      db.execute(query, [showId, ticketPrice, seatNum], (err, results) => {
-        if (typeof results != 'undefined') {
-            const affected = results.affectedRows; 
-
-            //get the last inserted id
-            const insertedId = results.insertId;
-
-            //check affected rows
-            if (affected === 1) resolve(insertedId);
-        }
-        reject(err);
-      })
-    })
+async function insertTicket(showId, ticketPrice, seatNum) {
+  const results = await query(
+    "INSERT INTO ticket(ticket_show_id, ticket_price, seat_no) VALUES (?, ?, ?)",
+    [showId, ticketPrice, seatNum]
+  );
+  
+  return results.insertId;
 }
 
 
@@ -120,20 +94,11 @@ function insertTicket(showId, ticketPrice, seatNum) {
  * @param {*} ticketId 
  * @returns 
  */
-function updateTicket( ticketPrice, seatNum, ticketId){
-      const query  = "UPDATE ticket SET ticket_price=?, seat_no=? WHERE ticket_id=?";
-
-      return new Promise((resolve, reject) => {
-        db.execute(query, [ticketPrice, seatNum, ticketId], (err, results) => {
-          if(typeof results != 'undefined'){
-              const affected = results.affectedRows;
-
-             //check affected rows
-             if(affected === 1) resolve(1);
-          }
-           reject(err)
-        });
-      });
+async function updateTicket(ticketPrice, seatNum, ticketId){
+  await query(
+    "UPDATE ticket SET ticket_price=?, seat_no=? WHERE ticket_id=?",
+    [ticketPrice, seatNum, ticketId]
+  );
 }
 
 /**
@@ -150,21 +115,11 @@ function updateTicket( ticketPrice, seatNum, ticketId){
  * @returns 
  */
 
-function deleteTicket(ticketId){
-    const query = "DELETE FROM ticket WHERE ticket_id=?";
-
-    return new Promise((resolve, reject) => {
-        db.execute(query, [ticketId], (err, results) => {
-            if(typeof results != 'undefined'){
-              const affected = results.affectedRows;
-
-              //check affected rows 
-              if (affected === 1) resolve(1);
-            }
-
-            reject(err);
-        });
-    });
+async function deleteTicket(ticketId){
+  await query(
+    "DELETE FROM ticket WHERE ticket_id=?",
+    [ticketId]
+  );
 }
 
 
@@ -172,27 +127,10 @@ function deleteTicket(ticketId){
  * Get all Movies
  * @returns 
  */
-function getAllMovies() {
-  const query = "SELECT * FROM `movie`";
-  return new Promise((resolve, reject) => {
-    db.query(query, (err, results) => {
-      if (typeof results != 'undefined'){
-        const rows = results;
-        console.log(results);
-
-        if (rows.length > 0) {
-          let data = [];
-          rows.forEach(d => {
-             data.push(d);
-            
-          });
-
-          resolve(data);
-        }
-      }
-      reject(err);
-    })
-  })
+async function getAllMovies() {
+  return await query(
+    "SELECT * FROM movie"
+  );
 }
 
 
@@ -203,22 +141,13 @@ function getAllMovies() {
  * @param {*} movieId 
  * @returns 
  */
-function getMovieById(movieId){
-  const query = "SELECT * FROM movie WHERE movie_id= ?";
-
-  return new Promise((resolve, reject) => {
-    db.execute(query, [movieId], (err, results) => {
-      if (typeof results != 'undefined'){
-        const rows = results;
-
-        if (rows.length === 1) {
-          let movieData = rows[0];
-            resolve(movieData);
-        }
-      }
-      reject(err);
-    });
-  })
+async function getMovieById(movieId){
+  const results = await query(
+    "SELECT * FROM movie WHERE movie_id=?",
+    [movieId]
+  );
+  
+  return results[0];
 }
 
 
@@ -229,24 +158,13 @@ function getMovieById(movieId){
  * @param {*} movieGenre 
  * @returns 
  */
-function insertMovie(movieName, movieDesc, movieGenre){
-    const query = "INSERT INTO movie(movie_name, movie_description, movie_genre_id) VALUES(?,?,?)";
-
-    return new Promise((resolve, reject) => {
-      db.execute(query, [moiveName, movieDesc, movieGenre], (err, results) => {
-            if (typeof results != 'undefined'){
-                const affected = results.affectedRows;
-
-                //get the last inserted id
-                const insertedId = results.insertId;
-
-                if(affected === 1) resolve(insertedId);
-
-            }
-
-            reject(err);
-      });
-    });
+async function insertMovie(movieName, movieDesc, movieGenre){
+  const results = await query(
+    "INSERT INTO movie(movie_name, movie_description, movie_genre_id) VALUES(?,?,?)",
+    [movieName, movieDesc, movieGenre]
+  );
+  
+  return results.insertId;
 }
 
 /**
@@ -257,21 +175,11 @@ function insertMovie(movieName, movieDesc, movieGenre){
  * @param {*} movieId 
  * @returns 
  */
-function updateMovie(movieName, movieDesc, movieGenre, movieId){
-  const query = "UPDATE movie SET movie_name=?, movie_description=?, movie_genre_id=? WHERE movie_id=?";
-
-  return new Promise((resolve, reject) => {
-    db.execute(query, [movieName, movieDesc, movieGenre, movieId], (err, results) => {
-        if (typeof results != 'undefined'){
-            const affected = results.affectedRows;
-
-            //check affected rows
-            if (affected === 1) resolve(1);
-        }
-
-        reject(err);
-    });
-  });
+async function updateMovie(movieName, movieDesc, movieGenre, movieId){
+  await query(
+    "UPDATE movie SET movie_name=?, movie_description=?, movie_genre_id=? WHERE movie_id=?",
+    [movieName, movieDesc, movieGenre, movieId]
+  );
 }
 
 /**
@@ -279,19 +187,11 @@ function updateMovie(movieName, movieDesc, movieGenre, movieId){
  * @param {*} movieId 
  * @returns 
  */
-function deleteMovie(movieId){
-    const query = "DELETE FROM movie WHERE movie_id=?";
-
-    return new Promise((resolve, reject) => {
-       db.execute(query, [movieId], (err, results) => {
-          if (typeof results != 'undefined'){
-              const affected = results.affectedRows;
-
-              if (affected === 1) resolve(1);
-          }
-          reject(err);
-       });
-    });
+async function deleteMovie(movieId){
+  await query(
+    "DELETE FROM movie WHERE movie_id=?",
+    [movieId]
+  );
 }
 
 /**
@@ -299,49 +199,27 @@ function deleteMovie(movieId){
  * @param {*} genreId 
  * @returns 
  */
-function getMovieByGenre(genreId){
-  const query = "SELECT movie_id, movie_name, movie_description, genre_name FROM movie m JOIN genre g ON m.movie_genre_id = g.genre_id WHERE m.movie_genre_id=?";
-
-  return new Promise((resolve, reject) => {
-    db.execute(query, [genreId], (err, results) => {
-        if (typeof results != 'undefined'){
-          const rows = results;
-
-          if (rows.length > 0){
-              let data  = []
-
-              rows.forEach(d => {
-                 data.push(d);
-              })
-              resolve(data);
-          }
-        }
-        reject(err);
-    });
-  });
+async function getMovieByGenre(genreId){
+  const results = await query(
+    "SELECT movie_id, movie_name, movie_description, genre_name FROM movie m JOIN genre g ON m.movie_genre_id = g.genre_id WHERE m.movie_genre_id=?",
+    [genreId]
+  );
+  
+  return results[0];
 }
 
 /**
  * Get's a Movie Id using movie_name
- * @param {*} moiveName 
+ * @param {*} movieName 
  * @returns 
  */
-function getMovieByName(moiveName) {
-      const query =  "SELECT movie_id FROM movie WHERE movie_name=?";
-
-      return new Promise((resolve, reject) => {
-        db.execute(query,[moiveName], (err, results) => {
-          if (typeof results != 'undefined'){
-            const rows = results;
-            
-            if(rows.length === 1){
-              let movieId = rows[0];
-              resolve(movieId)
-            }
-          }
-          reject(err);
-        })
-      })
+async function getMovieByName(movieName) {
+  const results = await query(
+    "SELECT movie_id FROM movie WHERE movie_name=?",
+    [movieName]
+  );
+  
+  return results[0];
 }
 
 /**
@@ -349,21 +227,13 @@ function getMovieByName(moiveName) {
  * @param {*} genreName 
  * @returns 
  */
-function getGenreName(genreName){
-  const query = "SELECT genre_id FROM genre WHERE genre_name=?";
-
-  return new Promise((resolve, reject) => {
-    db.execute(query, [genreName], (err, results) => {
-      if (typeof results != 'undefined'){
-          const rows = results;
-          if (rows.length === 1){
-            let genreId = rows[0];
-            resolve(genreId);
-          }
-      }
-      reject(err);
-    })
-  })
+async function getGenreName(genreName){
+  const results = await query(
+    "SELECT genre_id FROM genre WHERE genre_name=?",
+    [genreName]
+  );
+  
+  return results[0];
 }
 
 
@@ -375,42 +245,22 @@ function getGenreName(genreName){
  * @param {*} theaterName 
  * @returns 
  */
-function getTheaterByName(theaterName){
-  const query = "SELECT theater_id FROM theater WHERE theater_name= ?";
-
-  return new Promise((resolve, reject) => {
-    db.execute(query, [theaterName], (err, results) => {
-      if (typeof results != 'undefined'){
-        const rows = results;
-        
-        if(rows.length === 1){
-          let theaterId = rows[0];
-          resolve(theaterId)
-        }
-      }
-      reject(err);
-    })
-  })
-
+async function getTheaterByName(theaterName){
+  const results = await query(
+    "SELECT theater_id FROM theater WHERE theater_name=?",
+    [theaterName]
+  );
+  
+  return results[0];
 }
 
-function insertMovieShowing(movieId, theaterId, seats, showDate) {
-  const query = "INSERT INTO showing(show_movie_id, show_theater_id, seats, show_date) VALUES (?, ?, ?, ?)";
-  return new Promise((resolve, reject) => {
-    db.execute(query, [movieId, theaterId, seats, showDate], (err, results) => {
-      if (typeof results != 'undefined') {
-          console.log(results);
-          const affected = results.affectedRows; 
-
-          //get the last inserted id
-          const insertedId = results.insertId;
-
-          //check affected rows
-          if (affected === 1) resolve(insertedId);
-      }
-      reject(err);
-    })
-  })
+async function insertMovieShowing(movieId, theaterId, seats, showDate) {
+  const results = await query(
+    "INSERT INTO showing(show_movie_id, show_theater_id, seats, show_date) VALUES (?, ?, ?, ?)",
+    [movieId, theaterId, seats, showDate]
+  );
+  
+  return results.insertId;
 }
 
 
