@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('../database/db');
+const { isLoggedIn } = require('../middleware/index');
 
 
 /**
  * GET route - get all tickets collection
  */
-router.get("/", async(req, res) => {
+router.get("/", async (req, res) => {
   try {
         const tickets = await mysql.getAllMovieTickets();
-        res.render("../client/views/ticket/index");
-        // res.json(tickets);
+        // res.render("../client/views/ticket/index", { tickets: tickets });
+        res.json(tickets);
   }catch(err){
       console.log(err);
       return res.sendStatus(500);
@@ -46,7 +47,7 @@ router.post("/", async (req, res) => {
             console.log(ticketId);
             // res.send("data inserted!!!!");
             // console.log("ticket created!!!!!!!");
-            res.redirect('/api/movietickets/');
+            res.redirect("/api/movietickets/");
       }catch(err){
         console.log(err);
         return res.sendStatus(500);
@@ -56,7 +57,7 @@ router.post("/", async (req, res) => {
 /**
  * GET route - get a tickect
  */
-router.get("/ticket/:id", async(req, res) => {
+router.get("/ticket/:id", async (req, res) => {
   try {
         let ticketId = req.params.id 
         const ticket = await mysql.getMovieTicketById(ticketId);
@@ -70,15 +71,37 @@ router.get("/ticket/:id", async(req, res) => {
 /**
  * UPDATE route - update a ticket 
  */
-router.put("/ticket/:id", (req, res) => {
+router.put("/ticket/:id", async (req, res) => {
+      try {
+             let ticketId = req.params.id 
+             const { ticketPrice, seatNum } = req.body;
+             const updated = await mysql.updateTicket(ticketPrice, seatNum, ticketId);
 
+             if (updated === 1) {
+                res.redirect("/api/movietickets/ticket/" + ticketId);
+             }
+
+      }catch(err){
+        console.log(err);
+        return res.sendStatus(500);
+      }
 });
 
 /**
  * DELETE route - delete a ticket
  */
-router.delete("/ticket/:id", (req, res) => {
-
+router.delete("/ticket/:id", async (req, res) => {
+    try {
+            //delete ticket
+            let ticketId = req.params.id;
+            const affected = await mysql.deleteTicket(ticketId);
+            if (affected !== null){
+              res.send('ticket deleted');
+            }
+    }catch(err){
+      console.log(err);
+      return res.sendStatus(500);
+    }
 });
 
 module.exports = router;

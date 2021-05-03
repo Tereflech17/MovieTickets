@@ -5,6 +5,7 @@ const  mysql  = require('mysql2');
 const router = require('../routes/movie');
 
 
+
 const c = config.dev;
 console.log(c);
 
@@ -21,8 +22,10 @@ db.connect(err => {
 });
 
 
+
 /**
- * Get all Tickets
+ * Get all tickets
+ * @returns 
  */
 function getAllMovieTickets() {
       const query = "SELECT movie_name, seat_no, show_date, ticket_price FROM movie m"+ 
@@ -49,9 +52,11 @@ function getAllMovieTickets() {
 } 
 
 
+
 /**
- * Get Tickets by ID
- * 
+ * Get a ticket by Id
+ * @param {*} ticketId 
+ * @returns 
  */
 
 function getMovieTicketById(ticketId){
@@ -67,8 +72,8 @@ function getMovieTicketById(ticketId){
         const rows = results;
 
         if (rows.length === 1) {
-          let ticketData = rows[0];
-            resolve(ticketData);
+          let ticketRecord = rows[0];
+            resolve(ticketRecord);
         }
       }
       reject(err);
@@ -78,7 +83,7 @@ function getMovieTicketById(ticketId){
 
 
 /**
- * Insert Tickets into database
+ * Add a ticket to the database
  * @param {*} showId 
  * @param {*} ticketPrice 
  * @param {*} seatNum 
@@ -104,20 +109,67 @@ function insertTicket(showId, ticketPrice, seatNum) {
 
 
 
+
 /**
  * Update a ticket
+ * @param {*} ticketPrice 
+ * @param {*} seatNum 
+ * @param {*} ticketId 
+ * @returns 
  */
+function updateTicket( ticketPrice, seatNum, ticketId){
+      const query  = "UPDATE ticket SET ticket_price=?, seat_no=? WHERE ticket_id=?";
+
+      return new Promise((resolve, reject) => {
+        db.execute(query, [ticketPrice, seatNum, ticketId], (err, results) => {
+          if(typeof results != 'undefined'){
+              const affected = results.affectedRows;
+
+             //check affected rows
+             if(affected === 1) resolve(1);
+          }
+           reject(err)
+        });
+      });
+}
 
 /**
  * Delete a ticket
  */
+
+/**
+ * Delete a ticket
+ * To delect a ticket we first remove a ticket information 
+ * in the showing table since the ticket table and showing have a 
+ * relationship and then using the ON delete CASCADE functionality of 
+ * of mysql the related information will be removed from the ticket table
+ * @param {*} showId 
+ * @returns 
+ */
+
+function deleteTicket(ticketId){
+    const query = "DELETE FROM ticket WHERE ticket_id=?";
+
+    return new Promise((resolve, reject) => {
+        db.execute(query, [ticketId], (err, results) => {
+            if(typeof results != 'undefined'){
+              const affected = results.affectedRows;
+
+              //check affected rows 
+              if (affected === 1) resolve(1);
+            }
+
+            reject(err);
+        });
+    });
+}
 
 
 /**
  * Get all Movies
  * @returns 
  */
-function getMovies() {
+function getAllMovies() {
   const query = "SELECT * FROM `movie`";
   return new Promise((resolve, reject) => {
     db.query(query, (err, results) => {
@@ -167,8 +219,9 @@ function getMovieById(movieId){
 }
 
 
+
 /**
- * Get's a Movie Id by movie_name
+ * Get's a Movie Id using movie_name
  * @param {*} moiveName 
  * @returns 
  */
@@ -192,7 +245,7 @@ function getMovieByName(moiveName) {
 
 
 /**
- * Get's a TheaterId by theater_name
+ * Get's a TheaterId using theater_name
  * @param {*} theaterName 
  * @returns 
  */
@@ -243,5 +296,7 @@ module.exports = {
   getAllMovieTickets, 
   getMovieTicketById,
   insertTicket,
-  insertMovieShowing, 
+  insertMovieShowing,
+  updateTicket,
+  deleteTicket 
 };
