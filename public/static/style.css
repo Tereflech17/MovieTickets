@@ -1,0 +1,7 @@
+#errors {
+	color: red;
+}
+
+.message:not([shown]) {
+	display: none;
+}

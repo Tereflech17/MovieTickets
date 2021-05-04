@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Tickets</title>
+		<link rel="stylesheet" type="text/css" href="static/style.css" />
+	</head>
+	<body>
+		<h2>Create new ticket</h2>
+		<form id="form" onsubmit="newticket(); return false">
+			<input type="text" name="movieName" placeholder="Movie Name" /><br />
+			<input type="text" name="theaterName" placeholder="Theater Name" /><br />
+			<input type="number" name="totalSeats" placeholder="Total Seats" /><br />
+			<input type="text" name="showDate" placeholder="Show Date" /><br />
+			<input type="number" name="seatNum" placeholder="Seat Number" /><br />
+			<input type="number" name="ticketPrice" placeholder="Ticket Price" /><br />
+			
+			<input type="submit" value="Submit" />
+		</form>
+		<p id="errors" class="message"></p>
+		<p id="result" class="message"></p>
+		
+		
+		<div id="ticket-list">
+			
+		</div>
+		
+		<script src="static/common.js"></script>
+		<script src="static/ticket.js"></script>
+	</body>
+</html>
