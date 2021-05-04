@@ -13,30 +13,30 @@ const fs  = require('fs'),
 require('dotenv').config();
 
 
-passport.serializeUser((user, done) => {
-    done(null, user)
-});
+// passport.serializeUser((user, done) => {
+//     done(null, user)
+// });
 
-passport.deserializeUser((user, done) => {
-    done(null, user)
-});
+// passport.deserializeUser((user, done) => {
+//     done(null, user)
+// });
 
-const samlStrategy = new SamlStrategy.Strategy(
-  {
-    callbackUrl: process.env.CALLBACK_URL,
-    entryPoint: process.env.ENTRY_POINT,
-    issuer: process.env.ISSUER,
-    identifierFormat: null,
-    decryptionPvk: fs.readFileSync(__dirname + '/cert/key.pem', 'utf-8'),
-    privateCert: fs.readFileSync(__dirname + '/cert/key.pem', 'utf-8'),
-    cert: fs.readFileSync(__dirname + '/cert/cert_idp.pem', 'utf-8'),
-    validateInResponseto: false,
-    disableRequestAuthnContext: true
-  }, ( (profile, done) => {
-      return done(null, profile);
-  })); 
+// const samlStrategy = new SamlStrategy.Strategy(
+//   {
+//     callbackUrl: process.env.CALLBACK_URL,
+//     entryPoint: process.env.ENTRY_POINT,
+//     issuer: process.env.ISSUER,
+//     identifierFormat: null,
+//     decryptionPvk: fs.readFileSync(__dirname + '/cert/key.pem', 'utf-8'),
+//     privateCert: fs.readFileSync(__dirname + '/cert/key.pem', 'utf-8'),
+//     cert: fs.readFileSync(__dirname + '/cert/cert_idp.pem', 'utf-8'),
+//     validateInResponseto: false,
+//     disableRequestAuthnContext: true
+//   }, ( (profile, done) => {
+//       return done(null, profile);
+//   })); 
 
-  passport.use(samlStrategy);
+//   passport.use(samlStrategy);
  
 
 // require routes from routes directory
@@ -101,27 +101,27 @@ function ensureAuthenticated(req, res, next) {
 //       res.send('Authenticated');
 // });
 
-app.get('/login', 
-    passport.authenticate('saml', {failureRedirect: '/login/fail'}),
-    ((req, res) => {
-      res.redirect('https://shibboleth.main.ad.rit.edu/idp/profile/SAML2/Redirect/SSO');
-    })
-);
+// app.get('/login', 
+//     passport.authenticate('saml', {failureRedirect: '/login/fail'}),
+//     ((req, res) => {
+//       res.redirect('https://shibboleth.main.ad.rit.edu/idp/profile/SAML2/Redirect/SSO');
+//     })
+// );
 
-app.post('/login/callback', 
-    passport.authenticate('saml', {failureRedirect: '/login/fail'}),
-    ((req, res) => {
-      res.send("something happened!!!!")
-    }));
+// app.post('/login/callback', 
+//     passport.authenticate('saml', {failureRedirect: '/login/fail'}),
+//     ((req, res) => {
+//       res.send("something happened!!!!")
+//     }));
 
-app.get('/login/fail', ((req, res) => {
-    res.status(401).send('Login Failed');
-}));
+// app.get('/login/fail', ((req, res) => {
+//     res.status(401).send('Login Failed');
+// }));
 
-app.get('/Shibboleth.sso/Metadata', ((req, res) => {
-    res.type('application/xml');
-    res.status(200).send(samlStrategy.generateServiceProviderMetadata(fs.readFileSync(__dirname + '/cert/cert.pem', 'utf-8')));
-}));
+// app.get('/Shibboleth.sso/Metadata', ((req, res) => {
+//     res.type('application/xml');
+//     res.status(200).send(samlStrategy.generateServiceProviderMetadata(fs.readFileSync(__dirname + '/cert/cert.pem', 'utf-8')));
+// }));
 
 
 
