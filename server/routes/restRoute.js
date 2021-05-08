@@ -12,6 +12,11 @@ const handleRoute = handler => async (req, res, next) => {
 			result = await result;
 		}
 		
+		if(result === undefined){
+			res.status(204);
+			return res.send();
+		}
+		
 		res.json(result);
 	}catch(e){
 		// throwing a number (e.g. `throw 404`) just sends that as a status code

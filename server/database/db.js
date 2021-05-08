@@ -58,7 +58,6 @@ function create_crud(table, pk, fields) {
     
     // Insert an item
     async create(params) {
-      console.log(params);
       return (await query(
         "INSERT INTO " + table + " (" +
           fields.join(",") + ") VALUES (" +

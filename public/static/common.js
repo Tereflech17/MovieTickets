@@ -78,14 +78,41 @@ const add = async () => {
 	if(res){
 		setresult(JSON.stringify(res));
 	}
+	
+	getlist();
 }
 
-async function getlist() {
+const deleteObj = async id => {
+	const res = await api(endpoint + "/" + id, "DELETE");
+	
+	if(res){
+		setresult(JSON.stringify(res));
+	}
+	
+	getlist();
+}
+
+const createObjElement = obj => {
+	return c("div", {
+		className: "object"
+	},
+		create(obj),
+		c("button", {
+			textContent: "Delete",
+			onclick: () => deleteObj(obj[window.primaryKey || endpoint + "_id"])
+		})
+	);
+}
+
+const getlist = async () => {
 	const res = await api(endpoint + "s");
+	
+	// clear the list first
+	id("list").innerHTML = "";
 	
 	if(res){
 		for(const i of res){
-			id("list").appendChild(create(i));
+			id("list").appendChild(createObjElement(i));
 		}
 	}
 }
