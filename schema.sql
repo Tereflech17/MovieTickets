@@ -36,7 +36,7 @@ CREATE TABLE showing (
     show_id INT NOT NULL AUTO_INCREMENT,
     show_movie_id INT,
     show_theater_id INT,
-    seats VARCHAR(5),
+    seats INT,
     show_date DATE,
 
     PRIMARY KEY(show_id),

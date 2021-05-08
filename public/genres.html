@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Genres</title>
+		<link rel="stylesheet" type="text/css" href="static/style.css" />
+	</head>
+	<body>
+		<h2>Create new genre</h2>
+		<form id="form" onsubmit="add(); return false">
+			<input type="text" name="genre_name" placeholder="Genre Name" /><br />
+			
+			<input type="submit" value="Submit" />
+		</form>
+		<p id="errors" class="message"></p>
+		<p id="result" class="message"></p>
+		
+		
+		<div id="list">
+			
+		</div>
+		
+		<script src="static/common.js"></script>
+		<script src="static/genre.js"></script>
+	</body>
+</html>

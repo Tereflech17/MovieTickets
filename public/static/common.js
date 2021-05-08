@@ -11,6 +11,11 @@ const setresult = m => {
 }
 
 const apiCall = async (endpoint, method = "GET", body) => {
+	if(body instanceof HTMLFormElement){
+		newBody = new URLSearchParams(new FormData(body));
+		body = newBody;
+	}
+	
 	const res = await fetch("api/" + endpoint, {
 		method,
 		body
@@ -66,3 +71,23 @@ const c = (type, attr, ...children) => {
 	
 	return el;
 }
+
+const add = async () => {
+	const res = await api(endpoint, "POST", id("form"));
+	
+	if(res){
+		setresult(JSON.stringify(res));
+	}
+}
+
+async function getlist() {
+	const res = await api(endpoint + "s");
+	
+	if(res){
+		for(const i of res){
+			id("list").appendChild(create(i));
+		}
+	}
+}
+
+window.onload = getlist;
