@@ -1,6 +1,15 @@
-DROP DATABASE IF EXISTS moiveTickets;
+DROP DATABASE IF EXISTS movieTickets;
 
-CREATE DATABASE moiveTickets;
+CREATE DATABASE movieTickets;
+USE movieTickets;
+
+DROP TABLE IF EXISTS genre;
+CREATE TABLE genre (
+  genre_id INT NOT NULL AUTO_INCREMENT,
+  genre_name    VARCHAR(100),
+
+  PRIMARY KEY(genre_id)
+);
 
 DROP TABLE IF EXISTS movie;
 CREATE TABLE movie (
@@ -13,12 +22,13 @@ CREATE TABLE movie (
   FOREIGN KEY(movie_genre_id) REFERENCES genre(genre_id)
 );
 
-DROP TABLE IF EXISTS genre;
-CREATE TABLE genre (
-  genre_id INT NOT NULL AUTO_INCREMENT,
-  genre_name    VARCHAR(100),
+DROP TABLE IF EXISTS theater;
+CREATE TABLE theater (
+  theater_id INT NOT NULL AUTO_INCREMENT,
+  theater_name VARCHAR(50),
+  address VARCHAR(300),
 
-  PRIMARY KEY(genre_id)
+  PRIMARY KEY(theater_id)
 );
 
 DROP TABLE IF EXISTS showing;
@@ -44,23 +54,3 @@ CREATE TABLE ticket (
     PRIMARY KEY(ticket_id),
     FOREIGN KEY(ticket_show_id) REFERENCES showing(show_id) ON DELETE CASCADE
 );
-
-DROP TABLE IF EXISTS theater;
-CREATE TABLE theater (
-  theater_id INT NOT NULL AUTO_INCREMENT,
-  theater_name VARCHAR(50),
-  address VARCHAR(300),
-
-  PRIMARY KEY(theater_id)
-);
-
-
-INSERT INTO genre(genre_name) VALUES("");
-
-INSERT INTO movie(movie_name, movie_description, movie_genre_id) VALUES
-("","","",)
-("","","",)
-("","","",);
-
-INSERT INTO theater(theater_name, address) VALUES("","");
-
