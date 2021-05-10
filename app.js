@@ -41,8 +41,7 @@ require('dotenv').config();
 
 // require routes from routes directory
 
-const movieRoutes = require('./server/routes/movie');
-const ticketRoutes = require('./server/routes/ticket');
+const apiRoutes = require('./server/routes/restRoute');
 
 //custom log format
 const getCustomMorganFormat = () =>
@@ -126,6 +125,5 @@ function ensureAuthenticated(req, res, next) {
 
 
 
-app.use("/api", movieRoutes);
-app.use("/api/movietickets/", ticketRoutes);
+app.use("/api", apiRoutes);
 module.exports = app;

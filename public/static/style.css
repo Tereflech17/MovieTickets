@@ -5,3 +5,13 @@
 .message:not([shown]) {
 	display: none;
 }
+
+.object {
+	border: 1px solid gray;
+	padding: 0.5rem;
+	margin-top: 1rem;
+}
+
+.object p {
+	margin: 0;
+}
