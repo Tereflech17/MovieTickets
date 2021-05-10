@@ -29,6 +29,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0",
     "passport-saml": "^2.2.0",
     "saml2js": "^0.1.2"
   }
