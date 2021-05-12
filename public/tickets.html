@@ -8,22 +8,19 @@
 		<link rel="stylesheet" type="text/css" href="static/style.css" />
 	</head>
 	<body>
-		<h2>Create new ticket</h2>
-		<form id="form" onsubmit="newticket(); return false">
-			<input type="text" name="movieName" placeholder="Movie Name" /><br />
-			<input type="text" name="theaterName" placeholder="Theater Name" /><br />
-			<input type="number" name="totalSeats" placeholder="Total Seats" /><br />
-			<input type="text" name="showDate" placeholder="Show Date" /><br />
-			<input type="number" name="seatNum" placeholder="Seat Number" /><br />
-			<input type="number" name="ticketPrice" placeholder="Ticket Price" /><br />
+		<form id="form" onsubmit="add(); return false">
+			<input type="number" name="ticket_show_id" placeholder="Show ID" /><br />
+			<input type="number" name="ticket_price" placeholder="Price" /><br />
+			<input type="number" name="seat_no" placeholder="Seat Number" /><br />
 			
-			<input type="submit" value="Submit" />
+			<input type="submit" value="Insert" />
 		</form>
+		<input type="number" id="update_id" placeholder="ID of object to update"/><button onclick="update()">Update</button>
 		<p id="errors" class="message"></p>
 		<p id="result" class="message"></p>
 		
 		
-		<div id="ticket-list">
+		<div id="list">
 			
 		</div>
 		
