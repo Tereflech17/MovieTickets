@@ -68,44 +68,48 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL
-},
-   (accessToken, refreshToken, profile, done) => {
-      // console.log(profile);
-     return done(null, profile);
-  }
-));
+if(process.env.GOOGLE_CLIENT_ID){
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL
+  },
+    (accessToken, refreshToken, profile, done) => {
+        // console.log(profile);
+      return done(null, profile);
+    }
+  ));
 
-passport.serializeUser((user, done) => {
-        done(null, user.id);
-});
+  passport.serializeUser((user, done) => {
+          done(null, user.id);
+  });
 
-passport.deserializeUser((obj, done) => {
-      done(null, obj);
-});
+  passport.deserializeUser((obj, done) => {
+        done(null, obj);
+  });
 
-app.get('/', (req, res) => {
-  res.send('Login Failed please login again')
-})
-//Auth routes
-app.get('/login', passport.authenticate('google', {scope: ['profile', 'email']}));
+  app.get('/', (req, res) => {
+    res.send('Login Failed please login again')
+  })
+  //Auth routes
+  app.get('/login', passport.authenticate('google', {scope: ['profile', 'email']}));
 
-app.get('/auth/google/callback', passport.authenticate('google', {failureRedirect: '/'}), 
- (req, res) => {
-     res.redirect('/api/movies');
-    
-});
+  app.get('/auth/google/callback', passport.authenticate('google', {failureRedirect: '/'}), 
+  (req, res) => {
+      res.redirect('/api/movies');
+      
+  });
 
 
-//logout route
-app.get('/logout', (req, res) => {
- req.logout();
- res.redirect('/login');
-});
+  //logout route
+  app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login');
+  });
 
+}else{
+  console.warn("!!!! Not using Google OAuth, GOOGLE_CLIENT_ID environment variable not set !!!!");
+}
 
 
 
