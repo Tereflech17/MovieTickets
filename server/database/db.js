@@ -2,9 +2,7 @@
 require('dotenv').config();
 const  config  = require('../../config');
 const  mysql  = require('mysql2');
-// const router = require('../routes/movie');
-// const { resolve } = require('node:path');
-// const { resourceLimits } = require('node:worker_threads');
+
 
 
 

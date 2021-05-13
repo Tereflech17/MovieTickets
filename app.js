@@ -11,6 +11,7 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const passport = require('passport');
 const fs  = require('fs'),
       path = require('path');
+      const { isLoggedIn } = require('./server/middleware/index');
 require('dotenv').config();
 
 
@@ -18,7 +19,8 @@ require('dotenv').config();
  
 
 // require routes from routes directory
-const apiRoutes = require('./server/routes/restRoute');
+// const apiRoutes = require('./server/routes/restRoute');
+const ticketRoutes = require('./server/routes/ticket');
 
 
 /**
@@ -52,6 +54,7 @@ const httpLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
 app.use(cookieParser());
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(express.static("/views"));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
@@ -68,51 +71,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-if(process.env.GOOGLE_CLIENT_ID){
-  passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL
-  },
-    (accessToken, refreshToken, profile, done) => {
-        // console.log(profile);
-      return done(null, profile);
-    }
-  ));
-
-  passport.serializeUser((user, done) => {
-          done(null, user.id);
-  });
-
-  passport.deserializeUser((obj, done) => {
-        done(null, obj);
-  });
-
-  app.get('/', (req, res) => {
-    res.send('Login Failed please login again')
-  })
-  //Auth routes
-  app.get('/login', passport.authenticate('google', {scope: ['profile', 'email']}));
-
-  app.get('/auth/google/callback', passport.authenticate('google', {failureRedirect: '/'}), 
-  (req, res) => {
-      res.redirect('/api/movies');
-      
-  });
-
-
-  //logout route
-  app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/login');
-  });
-
-}else{
-  console.warn("!!!! Not using Google OAuth, GOOGLE_CLIENT_ID environment variable not set !!!!");
-}
 
 
 
-
+// app.use('/api/tickets/', ticketRoutes);
 app.use("/api", apiRoutes);
 module.exports = app;

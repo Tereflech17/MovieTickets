@@ -3,4 +3,7 @@ cert/*
 /access.log
 .env
 sso.js
-client/*
+client/views/*
+views/*
+server/database/db2.js
+public/js/*
