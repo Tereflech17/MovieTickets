@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+     <link rel="stylesheet" href="./static/style.css">
+     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+
+  <body>
+    <div class="btn-container">
+      <button type="button" class="btn btn-primary mybtn" data-bs-toggle="modal" data-bs-target="#createModalTicket">
+         <div class="link-container">
+          <a href="/newticket" class="link">create ticket</a>
+         </div>
+      </button>
+  </div>
+       <div class="container">
+          <hr>
+              List of Tickets
+        
+          <div>
+          <hr>
+            <div class="row" id="tickets">
+
+            </div>
+          </div>
+     </div>
+
+   
+
+    <div id="editModal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" arial-label="close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+              <form id="editForm" method="POST">
+                <div class="form-group">
+                  <label for="">Title</label>
+                  <input class="form-control" type="text" name="movieName" id="movieName" readonly>
+                </div>
+
+                <div class="form-group">
+                  <label for="">Description</label>
+                  <textarea  class="form-control" type="text" name="movieDesc" id="movieDesc" rows="3" readonly></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="">Genre</label>
+                  <input   class="form-control" type="text" name="genreName" id="genreName" readonly>
+                </div>
+
+                <div class="form-group">
+                  <label for="">Theater Name</label>
+                  <input class="form-control" type="text" name="theaterName" id="theaterName" readonly>
+                </div>
+
+                <div class="form-group">
+                  <label for="">Address </label>
+                  <input  class="form-control" type="text" name="address" id="address" readonly>
+                </div>
+
+                <div class="form-group">
+                  <label for="">Seat Number</label>
+                  <input  class="form-control" type="text" name="seatNum" id="seatNum">
+                </div>
+
+                <div class="form-group">
+                  <label for="">Price</label>
+                  <input  class="form-control" type="text" name="ticketPrice" id="ticketPrice">
+                </div>
+
+                <div class="form-group">
+                  <label for="">Date Showing</label>
+                  <input  class="form-control" type="text" name="showDate" id="showDate" readonly>
+                </div>
+
+                <button type="submit" class="btn btn-medium-blue">Submit</button>
+              </form>
+            </div>
+          </div>
+      </div>
+  </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+     <script src="/js/index.js"></script>
+     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script> -->
+  </body>
+</html>
