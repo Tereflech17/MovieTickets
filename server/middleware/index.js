@@ -5,7 +5,7 @@ const middleware  = {
       return next();
     }
     else {
-          res.send('login failed');
+          res.redirect('/login')
     }
   }
 }

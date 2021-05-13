@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('../database/db');
+const mysql = require('../database/db2');
 const { isLoggedIn } = require('../middleware/index');
 
 
@@ -47,7 +47,8 @@ router.post("/", async (req, res) => {
             console.log(ticketId);
             // res.send("data inserted!!!!");
             // console.log("ticket created!!!!!!!");
-            res.redirect("/api/movietickets/");
+            res.redirect('/tickets');
+            // res.redirect('back');
       }catch(err){
         console.log(err);
         return res.sendStatus(500);
@@ -57,7 +58,7 @@ router.post("/", async (req, res) => {
 /**
  * GET route - get a tickect
  */
-router.get("/ticket/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
         let ticketId = req.params.id 
         const ticket = await mysql.getMovieTicketById(ticketId);
@@ -71,14 +72,14 @@ router.get("/ticket/:id", async (req, res) => {
 /**
  * UPDATE route - update a ticket 
  */
-router.put("/ticket/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
       try {
              let ticketId = req.params.id 
              const { ticketPrice, seatNum } = req.body;
              const updated = await mysql.updateTicket(ticketPrice, seatNum, ticketId);
 
              if (updated === 1) {
-                res.redirect("/api/movietickets/ticket/" + ticketId);
+                res.redirect("/tickets");
              }
 
       }catch(err){
@@ -90,7 +91,7 @@ router.put("/ticket/:id", async (req, res) => {
 /**
  * DELETE route - delete a ticket
  */
-router.delete("/ticket/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     try {
             //delete ticket
             let ticketId = req.params.id;
