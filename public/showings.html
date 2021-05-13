@@ -4,12 +4,15 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Genres</title>
+		<title>Showings</title>
 		<link rel="stylesheet" type="text/css" href="static/style.css" />
 	</head>
 	<body>
 		<form id="form" onsubmit="add(); return false">
-			<input type="text" name="genre_name" placeholder="Genre Name" /><br />
+			<input type="number" name="show_movie_id" placeholder="Movie ID" /><br />
+			<input type="number" name="show_theater_id" placeholder="Theater ID" /><br />
+			<input type="number" name="seats" placeholder="Total Seats" /><br />
+			Show Date: <input type="date" name="show_date" placeholder="Show Date" /><br />
 			
 			<input type="submit" value="Insert" />
 		</form>
@@ -23,6 +26,6 @@
 		</div>
 		
 		<script src="static/common.js"></script>
-		<script src="static/genre.js"></script>
+		<script src="static/showing.js"></script>
 	</body>
 </html>

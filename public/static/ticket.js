@@ -1,32 +1,9 @@
-async function newticket() {
-	const fd = new FormData(id("form"));
-	
-	const res = await api("movietickets", "POST", fd);
-	
-	if(res){
-		setresult(JSON.stringify(res));
-	}
-}
+endpoint = "ticket";
 
-function createticket(ticket) {
-	return c("div", {
-		className: "ticket"
-	},
-		c("h3", "Seat: " + ticket.seat_no),
-		c("p", "Movie: " + ticket.movie_name),
-		c("p", "Price: " + ticket.ticket_price),
-		c("p", "Date: " + ticket.show_date)
+function create(obj) {
+	return c("div", {},
+		c("p", "Show ID: " + obj.ticket_show_id),
+		c("p", "Price: " + obj.ticket_price),
+		c("p", "Seat Number: " + obj.seat_no)
 	)
 }
-
-async function gettickets() {
-	const res = await api("movietickets");
-	
-	if(res){
-		for(const i of res){
-			id("ticket-list").appendChild(createticket(i));
-		}
-	}
-}
-
-gettickets();
