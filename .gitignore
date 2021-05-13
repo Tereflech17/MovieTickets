@@ -3,6 +3,7 @@ cert/*
 /access.log
 .env
 sso.js
-client/views/partials/*
+client/views/partials/footer.ejs
+client/views/partials/header.ejs
 client/views/ticket/*
 
