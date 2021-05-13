@@ -5,6 +5,4 @@ cert/*
 sso.js
 client/views/partials/*
 client/views/ticket/*
-views/*
-server/database/db2.js
-public/js/*
+
