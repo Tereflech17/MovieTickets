@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('../database/db2');
-const { isLoggedIn } = require('../middleware/index');
+// const { isLoggedIn } = require('../middleware/index');
 
 
 /**
@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
             console.log("form values", mName, tName, totalSeats, showDate);
             const movieId = await mysql.getMovieByName(mName);
             const theaterId = await mysql.getTheaterByName(tName);
-            console.log("form values!!!!!!", Object.values(movieId)[0], Object.values(theaterId)[0], totalSeats, showDate);
+            // console.log("form values!!!!!!", Object.values(movieId)[0], Object.values(theaterId)[0], totalSeats, showDate);
             const showId = await mysql.insertMovieShowing(Object.values(movieId)[0], Object.values(theaterId)[0], totalSeats, showDate);
             console.log(`showId:${showId} price: ${price} seatNum: ${seatNum}`);
             const ticketId = await mysql.insertTicket(showId, price, seatNum);

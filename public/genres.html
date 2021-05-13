@@ -4,23 +4,37 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
 		<title>Genres</title>
 		<link rel="stylesheet" type="text/css" href="static/style.css" />
 	</head>
 	<body>
-		<form id="form" onsubmit="add(); return false">
-			<input type="text" name="genre_name" placeholder="Genre Name" /><br />
-			
-			<input type="submit" value="Insert" />
-		</form>
-		<input type="number" id="update_id" placeholder="ID of object to update"/><button onclick="update()">Update</button>
+		<div class="container mt-5">
+			<form id="form" onsubmit="add(); return false">
+				<div class="insert mb-5">
+					<div class="form-group">
+						<input type="text" name="genre_name" placeholder="Genre Name" class="form-group form-control"/>
+					</div>
+				  <div class="form-group">
+						<input type="submit" value="Insert"/>
+					</div>
+				</div>	
+			</form>
+			<div class="form-group">
+				<input type="number" id="update_id" placeholder="ID of object to update" class="form-control"/>
+			</div>
+			<button onclick="update()">Update</button>
+		</div>
+	
 		<p id="errors" class="message"></p>
 		<p id="result" class="message"></p>
 		
-		
-		<div id="list">
+		<div class="container">
+			<div id="list">
 			
+			</div>
 		</div>
+	
 		
 		<script src="static/common.js"></script>
 		<script src="static/genre.js"></script>

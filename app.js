@@ -19,7 +19,7 @@ require('dotenv').config();
  
 
 // require routes from routes directory
-// const apiRoutes = require('./server/routes/restRoute');
+const apiRoutes = require('./server/routes/restRoute');
 const ticketRoutes = require('./server/routes/ticket');
 
 
@@ -99,6 +99,10 @@ app.get('/auth/google/callback', passport.authenticate('google', {failureRedirec
     
 });
 
+app.get('/', isLoggedIn, (req, res) => {
+  res.sendFile(__dirname + 'index.html');
+})
+
 app.get('/tickets', isLoggedIn,  (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 })
@@ -115,9 +119,6 @@ app.get('/logout', (req, res) => {
 });
 
 
-
-
-
-// app.use('/api/tickets/', ticketRoutes);
+app.use('/api/tickets/', ticketRoutes);
 app.use("/api", apiRoutes);
 module.exports = app;
