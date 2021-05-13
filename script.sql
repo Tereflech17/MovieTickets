@@ -5,7 +5,7 @@ INSERT INTO movie (movie_name, movie_description, movie_genre_id) VALUES
 ('Super Me', 'A struggling screenwriter discovers his lucrative ability to bring antiques from his dreams into the real world - but his new life soon unravels',4),
 ('Real Steel', 'A struggling fighter-turned-promoter reconnects with his estranged son to convert an old-generation robot into a mighty Wold Robot Boxing contender',4),
 ('Sniper Ghost Shooter', 'Snipers ordered to protect a gas pipeline from terrorists suspect a security breach when they are targeted by a ghost shooter who knows their location',4),
-('Waist Deep', 'In Los Angeles, recently paroled O2 teams up with a street-smart hustler when a gang hijacks his car and holds hi son for ransom.'2),
+('Waist Deep', 'In Los Angeles, recently paroled O2 teams up with a street-smart hustler when a gang hijacks his car and holds hi son for ransom.',2),
 ('Rim of the World', 'Stranded at a summer camp when aliens attack the planet, four teens with nothing in common embark on a perilous mission to save the world.',2),
 ('2012', 'When a flood of natural disasters begin to destroy the world, a divorced dad desperately tries to save his family by outrunning the catclysmic chaos',5),
 ('Bird Box', 'Stay silent. Stay alert. Stay blindfolded. As a terrifying force lies in wait, a mother leads her children on a harrowing journey.',5),

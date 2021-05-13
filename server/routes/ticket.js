@@ -48,6 +48,7 @@ router.post("/", async (req, res) => {
             // res.send("data inserted!!!!");
             // console.log("ticket created!!!!!!!");
             res.redirect('/tickets');
+            // res.send("ticket updated")
             // res.redirect('back');
       }catch(err){
         console.log(err);
