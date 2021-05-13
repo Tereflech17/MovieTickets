@@ -71,49 +71,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL
-},
-   (accessToken, refreshToken, profile, done) => {
-     return done(null, profile);
-  }
-));
-
-passport.serializeUser((user, done) => {
-        done(null, user.id);
-});
-
-passport.deserializeUser((obj, done) => {
-      done(null, obj);
-});
-
-
-//Auth routes
-app.get('/login', passport.authenticate('google', {scope: ['profile', 'email']}));
-
-app.get('/auth/google/callback', passport.authenticate('google', {failureRedirect: '/login'}), 
- (req, res) => {
-     res.redirect('/tickets');
-    
-});
-
-// app.get('/tickets', isLoggedIn,  (req, res) => {
-//   res.sendFile(__dirname + '/views/index.html');
-// })
-
-// app.get('/newticket', (req, res) => {
-//   res.sendFile(__dirname + '/views/ticket.html');
-// })
-
-
-//logout route
-app.get('/logout', (req, res) => {
- req.logout();
- res.redirect('/login');
-});
-
 
 
 
