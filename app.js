@@ -99,13 +99,13 @@ app.get('/auth/google/callback', passport.authenticate('google', {failureRedirec
     
 });
 
-// app.get('/tickets', isLoggedIn,  (req, res) => {
-//   res.sendFile(__dirname + '/views/index.html');
-// })
+app.get('/tickets', isLoggedIn,  (req, res) => {
+  res.sendFile(__dirname + '/views/index.html');
+})
 
-// app.get('/newticket', (req, res) => {
-//   res.sendFile(__dirname + '/views/ticket.html');
-// })
+app.get('/newticket', (req, res) => {
+  res.sendFile(__dirname + '/views/ticket.html');
+})
 
 
 //logout route
