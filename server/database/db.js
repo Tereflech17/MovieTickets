@@ -74,7 +74,7 @@ function create_crud(table, pk, fields) {
         "UPDATE " + table + " SET " +
           updateFields.map(n => n + " = ?").join(",") +
           " WHERE " + pk + " = ?",
-        [id, ...updateFields.map(n => params[n])]
+        [...updateFields.map(n => params[n]), id]
       );
     },
     

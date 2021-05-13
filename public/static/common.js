@@ -82,6 +82,17 @@ const add = async () => {
 	getlist();
 }
 
+const update = async () => {
+	const update_id = id("update_id").value;
+	const res = await api(endpoint + "/" + update_id, "PUT", id("form"));
+	
+	if(res){
+		setresult(JSON.stringify(res));
+	}
+	
+	getlist();
+}
+
 const deleteObj = async id => {
 	const res = await api(endpoint + "/" + id, "DELETE");
 	
